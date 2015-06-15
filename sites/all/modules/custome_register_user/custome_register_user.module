@@ -1,0 +1,111 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: debasis
+ * Date: 16/6/15
+ * Time: 12:04 AM
+ */
+
+function custome_register_user_init() // init function called by defaulted when this module loaded by system
+{
+    echo 90;
+    echo $GLOBALS['theme'];
+
+
+
+
+}
+
+
+function custome_register_user_enable()
+{
+    //echo 87;
+// Check if our field is not already created.
+    if (!field_info_field('user_first_name')) {
+
+        // Create the field base.
+        $field = array(
+            'field_name' => 'user_first_name',
+            'type' => 'text',
+        );
+        field_create_field($field);
+
+        // Create the field instance on the bundle.
+        $instance = array(
+            'field_name' => 'user_first_name',
+            'entity_type' => 'user',
+            'label' => 'First Name',
+            'bundle' => 'user',
+            // If you don't set the "required" property then the field wont be required by default.
+            'required' => TRUE,
+            'settings' => array(
+                // Here you inform either or not you want this field showing up on the registration form.
+                'user_register_form' => 1,
+            ),
+            'widget' => array(
+                'type' => 'textfield',
+            ),
+        );
+        field_create_instance($instance);
+    }
+}
+
+    function custome_register_user_disable() {
+
+        if (field_info_field('user_first_name')) {
+
+            // Create the field base.
+            $field = array(
+                'field_name' => 'user_first_name',
+                'type' => 'text',
+            );
+            field_delete_field($field);
+        }
+
+    }
+
+function custome_register_user_uninstall1(){
+    echo 98;
+    exit;
+
+    if (field_info_field('user_firstname')) {
+
+        // Create the field base.
+        $field = array(
+            'field_name' => 'user_firstname',
+            'type' => 'text',
+        );
+        field_delet_field($field);
+    }
+
+}
+/*function custome_register_user_theme(&$existing, $type,$theme, $path)
+{
+    $hooks= array();
+    $hooks['user_register_form']=array(
+        'render element'=>'form',
+        'path'=>drupal_get_path('theme',$GLOBALS['theme']),
+        'template'=>'user-register',
+        'preprocess functions' => array('custome_register_user_preprocess_user_register_form'),
+
+    );
+
+    return $hooks;
+
+
+}*/
+
+/*function custome_register_user_preprocess_user_register(&$variables) {
+    $vars['intro_text'] = t('This is my super awesome reg form');
+}
+
+function custome_register_user_form_user_register_form_alter($form, &$form_state)
+{
+    echo 98;
+    $form['address'] = array('#type' => 'textfield',
+        '#title' => t('Your address'),
+        '#size' => 60,
+        '#maxlength' => 125,
+        '#required' => TRUE,
+    );
+}*/
