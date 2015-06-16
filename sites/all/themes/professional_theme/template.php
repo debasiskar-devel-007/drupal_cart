@@ -12,6 +12,10 @@ function professional_theme_html_head_alter(&$head_elements) {
 /**
  * Insert themed breadcrumb page navigation at top of the node content.
  */
+
+
+
+//to manage form element wrapper and showing errors inline
 function professional_theme_form_element($variables) {
     $output = '';
 
