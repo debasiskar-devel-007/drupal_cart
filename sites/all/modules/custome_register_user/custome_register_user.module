@@ -44,11 +44,59 @@ function custome_register_user_enable()
             ),
             'widget' => array(
                 'type' => 'textfield',
+                'weight' => '-60',
             ),
         );
         field_create_instance($instance);
     }
 }
+
+
+function ife_errors($op = 'get', $id = NULL, $message = NULL) {
+    static $errors = array();
+
+    switch ($op) {
+        case 'get':
+            // Return given element error if id is provided.
+            if (isset($id) && isset($errors[$id])) {
+                return $errors[$id];
+            }
+            break;
+        case 'set';
+            $errors[$id] = $message;
+            break;
+    }
+}
+
+
+function custome_register_user_preprocess_form_element3($variables) {
+    echo 76;
+    //exit;
+    $output = '';
+
+
+
+    $output = $variables['element']['#children'];
+    //echo $variables['element']['#name'];
+
+
+    if(is_array(form_get_errors())){
+
+
+
+        if (array_key_exists($variables['element']['#name'],form_get_errors())) {
+            $errors=form_get_errors();
+            //echo 92;
+            $output .= '<div class="messages error messages-inline">' . $errors[$variables['element']['#name']] . '</div>';
+        }
+    }
+    //echo ($output);
+    //exit;
+    $vars['attributes']['class'][] = 'another-class';
+
+   // return theme_form_element($variables)."<div>48</div>";
+}
+
 
 function custome_register_user_disable() {
 
