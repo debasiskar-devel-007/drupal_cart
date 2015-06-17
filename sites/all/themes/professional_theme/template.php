@@ -29,12 +29,6 @@ function professional_theme_form_element($variables) {
          $elementname = substr_replace($elementname,'][',$pos,strlen('['));
     }
 
-    $e=(form_get_errors());
-    foreach($e as $q=>$va)
-    {
-        echo $q."<br/>".$va."<br/>";
-    }
-
 
     if(is_array(form_get_errors())){
 
