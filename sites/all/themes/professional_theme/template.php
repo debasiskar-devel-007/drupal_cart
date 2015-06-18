@@ -28,6 +28,7 @@ function professional_theme_form_element($variables) {
     if ($pos !== false) {
          $elementname = substr_replace($elementname,'][',$pos,strlen('['));
     }
+    //var_dump(form_get_errors());
 
 
     if(is_array(form_get_errors())){

@@ -21,46 +21,44 @@ function custome_register_user_init() // init function called by defaulted when 
 
 
 
-function custome_register_user_form_alter(&$form, &$form_state, $form_id) {
+function custome_register_user_form_altser(&$form, &$form_state, $form_id) {
 
-   if($form_id=='user_register_form') {
+   //var_dump($form);
+    if($form_id=='user_register_form') {
+       $form['actions']['submit']['#suffix']= "<div id='test-ajax'></div>";
        $form['actions']['submit']['#value']= 'Send';
-       $form['actions']['submit']['#ajax']= array(
-           "callback" => "dr_search_test_form_callback3",
-           "wrapper" => "test-ajax",
-           "event" => "click",
-           "effect" => "fade");
+      /* $form['actions']['submit']['#ajax']= array(*/
+      /*     "callback" => "dr_search_test_form_callback3",*/
+      /*     "wrapper" => "test-ajax",*/
+      /*     "event" => "click",*/
+      /*     "effect" => "fade",*/
+      /*     "method" => "replace");*/
 
-       $form['replace_textfield'] = array(
-           '#type' => 'hidden',
-           '#title' => t("Why"),
-           '#weight'=>-89,
-
-           // The prefix/suffix provide the div that we're replacing, named by
-           // #ajax['wrapper'] above.
-           '#prefix' => '<div id="test-ajax">',
-           '#suffix' => '</div>',
-       );
+       //$form['#prefix']="<div id='test-ajax'></div>";
 
 
-       //$form['account']['name']['#value']="hoi";
-      /* $form['account']['name']['#ajax']=array(
-           "callback"=>"dr_search_test_form_callback",
-           "wrapper" => "test-ajax",
-           "event" => "blur"
-       );
-       $form['account']['email']['#ajax']=array(
-           "callback"=>"dr_search_test_form_callback2",
-           "wrapper" => "test-ajax",
+        //$form['account']['name']['#value']="hoi";
+        $form['account']['name']['#suffix']="<div id='test-ajax'></div>";
+        $form['account']['name']['#ajax']=array(
+            "callback"=>"dr_search_test_form_callback",
+            "wrapper" => "test-ajax-name",
+            "event" => "blur"
+        );
+        $form['account']['mail']['#suffix']="<div id='test-ajax'></div>";
+        $form['account']['mail']['#ajax']=array(
+            "callback"=>"dr_search_test_form_callback3",
+           "wrapper" => "test-ajax-mail",
            "event" => "blur"
        );
 
-       $form['user_first_name']['#ajax']=array(
+       //$form['user_first_name']['#access']=false;
+       $form['field_last_name']['#ajax']=array(
            "callback"=>"dr_search_test_form_callback1",
            "wrapper" => "test-ajax",
-           "event" => "blur"
-       );*/
-       //$form["wrapper"] = array("#prefix" => "<div id='test-ajax'></div>");
+           "event" => "blur",
+           "method" => "replace"
+       );
+      // $form["#prefix"] = "<div id='test-ajax-name'></div>";
        //$form["name"] = array("#type" => "textfield", "#required" => true, "#title" => "Name");
        /*$form["submit"] = array(
            "#type" => "submit",
@@ -82,18 +80,27 @@ function custome_register_user_form_alter(&$form, &$form_state, $form_id) {
 }
 
 function dr_search_test_form_callback($form, &$fstate) {
-    return "<div id='test-ajax'>?????</div>";
+    form_set_error("user_first_name", "Some error to display.");
+    return "<div id='test-ajax-name'>?????</div>";
 }
 
 function dr_search_test_form_callback1($form, &$fstate) {
-    return "<div id='test-ajax'>?????</div>";
+    form_set_error("user_first_name", "Some error to display.");
+    return $form;
 }
 
 function dr_search_test_form_callback2($form, &$fstate) {
     return "<div id='test-ajax'>?????</div>";
 }
 function dr_search_test_form_callback3($form, &$fstate) {
-    return "<div id='test-ajax'>?????</div>";
+    //var_dump(form_get_errors());
+    $error=form_get_errors();
+    if(isset($error['name']))
+    return "<div id='test-ajax-name'>---".(@$error['name'])."</div>";
+     if(isset($error['mail']))
+     return "<div id='test-ajax-mail'>---".(@$error['mail'])."</div>";
+
+    return "<div id='test-ajax'>?????</div><div id='test-ajax'>---".(@$error['name'])."</div>";
 }
 
 function dr_search_test_form_validate($form, &$fstate) {
